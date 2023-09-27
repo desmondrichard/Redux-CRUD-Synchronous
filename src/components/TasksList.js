@@ -2,16 +2,22 @@ import React, { useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import MyVerticallyCenteredModal from './UpdateTask';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setselectedTask } from './slices/tasksSlice';
+import { removeTaskFromList } from './slices/tasksSlice';
 
 function TasksList() {
-    function updateTask() {
+    const { tasksList } = useSelector((state) => state.tasks)
+    const dispatch = useDispatch();
+
+    function updateTask(task) {
         console.log("Update");
         setModalShow(true); //on clicking update btn modal will open so made true and this line will make setModalShow from false to true
+        dispatch(setselectedTask(task))
     }
-    function deleteTask() {
+    function deleteTask(task) {
         console.log("delete");
+        dispatch(removeTaskFromList(task))
     }
     const [modalShow, setModalShow] = useState("");
     return (
@@ -26,12 +32,17 @@ function TasksList() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td className="text-center"> <Button variant="primary" onClick={updateTask}><i className="bi bi-pencil-square"></i></Button> <Button onClick={deleteTask} variant="primary"><i className="bi bi-trash3-fill"></i></Button></td>
-                    </tr>
+                    {tasksList && tasksList.map((task, index) => {
+                        return (
+                            <tr key={task.id}>
+                                <td>{index + 1}</td>
+                                <td>{task.title}</td>
+                                <td>{task.desc}</td>
+                                <td className="text-center"> <Button variant="primary" onClick={() => updateTask(task)} className="my-1"><i className="bi bi-pencil-square"></i></Button> <Button onClick={() => deleteTask(task)} variant="primary"><i className="bi bi-trash3-fill"></i></Button></td>
+                            </tr>
+
+                        )
+                    })}
 
                 </tbody>
             </Table>

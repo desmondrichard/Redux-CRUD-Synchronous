@@ -10,14 +10,14 @@ const tasksSlice=createSlice({
     initialState,
     reducers:{
        addTaskToList:(state,action)=>{
-        const id=Math.random()*100
+        const id=parseInt(Math.random()*100);
         let task={...action.payload,id}
         state.tasksList.push(task) //pushed title,desc,id
        
        },
 
        removeTaskFromList:(state,action)=>{ //used filter to filter out the specific id
-        state.tasksList.filter((task)=>task.id!==action.payload.id)// if we === it will filter all matching id's which is useless
+        state.tasksList=state.tasksList.filter((task)=>task.id!==action.payload.id)// if we === it will filter all matching id's which is useless
        },
 
        updateTaskInList:(state,action)=>{
