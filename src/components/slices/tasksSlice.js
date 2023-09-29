@@ -10,7 +10,7 @@ const tasksSlice=createSlice({
     initialState,
     reducers:{
        addTaskToList:(state,action)=>{
-        const id=parseInt(Math.random()*100);
+        const id=parseInt(Math.random()*100); //created id randomly
         let task={...action.payload,id}
         state.tasksList.push(task) //pushed title,desc,id
        
